@@ -1,7 +1,9 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TTTGame extends Game {
-    private Player winner, player1, player2;
+    private Team winner;
+    private Team[] teams;
     private ScoreBoard scoreBoard;
 
     public TTTGame() {
@@ -9,11 +11,11 @@ public class TTTGame extends Game {
     }
 
     public TTTGame(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+        teams = new Team[]{new Team(player1.getSymbol()), new Team(player2.getSymbol())};
+        teams[0].addPlayer(player1);
+        teams[1].addPlayer(player2);
 
-        scoreBoard = new ScoreBoard(2);
-        scoreBoard.addTeams(new String[]{player1.getSymbol(), player2.getSymbol()});
+        scoreBoard = new ScoreBoard(teams);
 
         createBoard(3);
         initBoard("");
@@ -21,16 +23,16 @@ public class TTTGame extends Game {
 
     @Override
     public void start() {
-        Player turn = player1;
+        int turn = 0;
         Scanner input = new Scanner(System.in);
         System.out.println("TTT GAME START!");
 
         while (!isEnd()) {
             board.show();
-            if (turn == player1) {
-                System.out.println("Player 1 Turn");
+            if (turn == 0) {
+                System.out.println("Player X Turn");
             } else {
-                System.out.println("Player 2 Turn");
+                System.out.println("Player O Turn");
             }
 
             while (true) {
@@ -40,20 +42,21 @@ public class TTTGame extends Game {
                     int row = input.nextInt();
                     int column = input.nextInt();
 
-                    if (move(row, column, turn.getSymbol())) {
-                        turn = turn == player1 ? player2 : player1;
+                    if (move(row, column, teams[turn].getSymbol())) {
+                        turn = turn == 0 ? 1 : 0;
                         break;
                     } else {
                         System.out.println("Error: the input is invalid, please input again");
                     }
-                } catch (Exception ignored) {
+                } catch (InputMismatchException e) {
+                    input.next();
                     System.out.println("Error: the input is invalid, please input again");
                 }
             }
         }
 
         if (winner() != null) {
-            System.out.println("The winner is: " + (winner() == player1 ? "Player 1" : "Player 2"));
+            System.out.println("The winner is: " + (winner() == teams[0] ? "Player X" : "Player O"));
             scoreBoard.score(winner().getSymbol(), 1);
         } else {
             System.out.println("Draw! no winner");
@@ -63,9 +66,8 @@ public class TTTGame extends Game {
     }
 
     @Override
-    public void reset() {
+    public void newGame() {
         board.reset();
-        scoreBoard.reset();
     }
 
     @Override
@@ -78,11 +80,11 @@ public class TTTGame extends Game {
         }
     }
 
-    private Player getWinner(String mark) {
-        if (player1.getSymbol().equals(mark))
-            return player1;
-        else if (player2.getSymbol().equals(mark))
-            return player2;
+    private Team findWinner(String mark) {
+        if (teams[0].getSymbol().equals(mark))
+            return teams[0];
+        else if (teams[1].getSymbol().equals(mark))
+            return teams[1];
         else
             return null;
     }
@@ -94,7 +96,7 @@ public class TTTGame extends Game {
             if (!board.getMark(i, 0).equals("")
                     && board.getMark(i, 0).equals(board.getMark(i, 1))
                     && board.getMark(i, 0).equals(board.getMark(i, 2))) {
-                winner = getWinner(board.getMark(i, 0));
+                winner = findWinner(board.getMark(i, 0));
                 return true;
             }
         }
@@ -104,7 +106,7 @@ public class TTTGame extends Game {
             if (!board.getMark(0, i).equals("")
                     && board.getMark(0, i).equals(board.getMark(1, i))
                     && board.getMark(0, i).equals(board.getMark(2, i))) {
-                winner = getWinner(board.getMark(0, i));
+                winner = findWinner(board.getMark(0, i));
                 return true;
             }
         }
@@ -115,7 +117,7 @@ public class TTTGame extends Game {
                 && board.getMark(0, 0).equals(board.getMark(2, 2))
                 || board.getMark(0, 2).equals(board.getMark(1, 1))
                 && board.getMark(2, 0).equals(board.getMark(1, 1)))) {
-            winner = getWinner(board.getMark(1, 1));
+            winner = findWinner(board.getMark(1, 1));
             return true;
         }
 
@@ -123,7 +125,7 @@ public class TTTGame extends Game {
     }
 
     @Override
-    public Player winner() {
+    public Team winner() {
         return winner;
     }
 

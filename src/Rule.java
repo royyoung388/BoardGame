@@ -12,7 +12,7 @@ public interface Rule {
      * Who is the winner?
      * @return
      */
-    Player winner();
+    Team winner();
 
     /**
      * Is the move valid?

@@ -47,9 +47,9 @@ public abstract class Game implements Rule {
     public abstract void start();
 
     /**
-     * reset the game
+     * start a new game
      */
-    public abstract void reset();
+    public abstract void newGame();
 
     /**
      * move the chess, change the mark on the board

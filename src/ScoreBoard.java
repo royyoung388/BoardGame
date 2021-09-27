@@ -1,26 +1,20 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ScoreBoard {
-    private ArrayList<String> team;
+    private Team[] teams;
     private int scores[];
 
-    public ScoreBoard(int teamNum) {
-        team = new ArrayList<>(teamNum);
-        scores = new int[teamNum];
-    }
-
-    public void addTeam(int teamNo, String symbol) {
-        team.add(symbol);
-    }
-
-    public void addTeams(String[] symbols) {
-        team.addAll(Arrays.asList(symbols));
+    public ScoreBoard(Team[] teams) {
+        this.teams = teams;
+        scores = new int[teams.length];
     }
 
     public void score(String symbol, int score) {
-        int index = team.indexOf(symbol);
-        scores[index] += score;
+        for (int i = 0; i < teams.length; i++)
+            if (symbol.equals(teams[i].getSymbol())) {
+                scores[i] += score;
+                break;
+            }
     }
 
     public void reset() {
@@ -29,9 +23,9 @@ public class ScoreBoard {
 
     public void showScore() {
         System.out.println("==============Score==============");
-        for (int i = 0; i < team.size(); i++) {
-            System.out.printf("%6s %2s", "Team" + i, team.get(i));
-            if (i != team.size() - 1)
+        for (int i = 0; i < teams.length; i++) {
+            System.out.printf("%6s %2s", "Team" + i, teams[i].getSymbol());
+            if (i != teams.length - 1)
                 System.out.print(" : ");
         }
         System.out.println();

@@ -1,3 +1,7 @@
+/**
+ * One cell on the board.
+ * Memory the mark
+ */
 public class Cell {
     private String mark;
 

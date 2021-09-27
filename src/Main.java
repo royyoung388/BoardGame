@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * start the game
+ */
 public class Main {
     public static void main(String[] args) {
         Game game = null;
@@ -14,6 +17,7 @@ public class Main {
             System.out.println("3. Custom Tic Tac Toe Game");
             System.out.println("0. Exit");
 
+            // choose game, and start it
             String select = input.next();
             switch (select) {
                 case "1":
@@ -37,6 +41,7 @@ public class Main {
                     break;
             }
 
+            // replay?
             while (flag == 1) {
                 System.out.println("Do you want to play the game again? (Y/N)");
                 select = input.next().toLowerCase();

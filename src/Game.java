@@ -1,8 +1,21 @@
 /**
- * Base class for all game. Define several general method.
+ * Base class for all game. Defined several general method.
  */
 public abstract class Game implements Rule {
     protected Board board;
+    protected Team[] teams;
+    protected ScoreBoard scoreBoard;
+
+    /**
+     * show the teams and players
+     */
+    public void showTeam() {
+        System.out.println("=========TEAM=========");
+        for (Team team : teams) {
+            System.out.printf("Team %s:\n", team.getSymbol());
+            team.showPlayers();
+        }
+    }
 
     /**
      * create a square board
@@ -29,7 +42,7 @@ public abstract class Game implements Rule {
      * @param marks
      */
     public void initBoard(String[][] marks) {
-        board.reset(marks);
+        board.fill(marks);
     }
 
     /**
@@ -38,7 +51,7 @@ public abstract class Game implements Rule {
      * @param mark
      */
     public void initBoard(String mark) {
-        board.reset(mark);
+        board.fill(mark);
     }
 
     /**
@@ -57,7 +70,9 @@ public abstract class Game implements Rule {
      * @param row
      * @param column
      * @param mark
-     * @return false if can not move, true if move valid
+     * @return false if move invalid, true if the move success and change the board.
      */
     public abstract boolean move(int row, int column, String mark);
+
+
 }

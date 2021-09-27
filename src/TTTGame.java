@@ -1,17 +1,19 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Tic-tac-toe Game.
+ * The board size if 3X3, win condition is 3, only 2 teams, 2 players.
+ */
 public class TTTGame extends Game {
     private Team winner;
-    private Team[] teams;
-    private ScoreBoard scoreBoard;
 
     public TTTGame() {
         this(new Player("X"), new Player("O"));
     }
 
     public TTTGame(Player player1, Player player2) {
-        teams = new Team[]{new Team(player1.getSymbol()), new Team(player2.getSymbol())};
+        teams = new Team[]{new Team("X"), new Team("O")};
         teams[0].addPlayer(player1);
         teams[1].addPlayer(player2);
 
@@ -55,6 +57,7 @@ public class TTTGame extends Game {
             }
         }
 
+        board.show();
         if (winner() != null) {
             System.out.println("The winner is: " + (winner() == teams[0] ? "Player X" : "Player O"));
             scoreBoard.score(winner().getSymbol(), 1);
@@ -67,7 +70,7 @@ public class TTTGame extends Game {
 
     @Override
     public void newGame() {
-        board.reset();
+        board.fill();
     }
 
     @Override

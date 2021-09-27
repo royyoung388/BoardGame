@@ -1,11 +1,14 @@
+/**
+ * Player, has a name.
+ */
 public class Player {
-    private String symbol;
+    private String name;
 
-    public Player(String symbol) {
-        this.symbol = symbol;
+    public Player(String name) {
+        this.name = name;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public String getName() {
+        return name;
     }
 }

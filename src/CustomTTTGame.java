@@ -1,11 +1,13 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Custom tic-tac-toe game.
+ * Get parameter by getPara(), every input will be checked.
+ */
 public class CustomTTTGame extends Game {
     private Team winner;
-    private Team[] teams;
     private int winCond;
-    private ScoreBoard scoreBoard;
 
     public CustomTTTGame() {
         getPara();
@@ -19,7 +21,7 @@ public class CustomTTTGame extends Game {
 
         while (!isEnd()) {
             board.show();
-            System.out.printf("Player %s Turn\n", teams[turn].getSymbol());
+            System.out.printf("Team %s,Player %s Turn\n", teams[turn].getSymbol(), teams[turn].nextPlayer().getName());
 
             while (true) {
                 try {
@@ -41,8 +43,9 @@ public class CustomTTTGame extends Game {
             }
         }
 
+        board.show();
         if (winner() != null) {
-            System.out.println("The winner is: Player " + winner().getSymbol());
+            System.out.println("The winner is: Team " + winner().getSymbol());
             scoreBoard.score(winner().getSymbol(), 1);
         } else {
             System.out.println("Draw! no winner");
@@ -54,6 +57,7 @@ public class CustomTTTGame extends Game {
     @Override
     public void newGame() {
         while (true) {
+            // use the same parameter
             System.out.println("Do you want to use the same parameter? (Y/N)");
             String select = new Scanner(System.in).next().toLowerCase();
             if (select.equals("y"))
@@ -66,7 +70,7 @@ public class CustomTTTGame extends Game {
 
         }
 
-        board.reset();
+        board.fill();
     }
 
     @Override
@@ -89,121 +93,13 @@ public class CustomTTTGame extends Game {
 
     @Override
     public boolean isEnd() {
-        // check the row
-        for (int i = 0; i < board.getRow(); i++) {
-            String s = "";
-            int count = 0;
-            for (int j = 0; j < board.getColumn(); j++) {
-                // find the longest mark
-                String mark = board.getMark(i, j);
-                if (!mark.equals("")) {
-                    if (mark.equals(s))
-                        count++;
-                    else {
-                        s = mark;
-                        count = 1;
-                    }
-                } else {
-                    s = "";
-                    count = 0;
-                }
-
-                // judge winner by the length
-                if (count >= winCond) {
-                    winner = findWinner(mark);
-                    return true;
-                }
-            }
+        String mark;
+        if ((mark = Utils.checkRow(board, winCond)) != null
+                || (mark = Utils.checkColumn(board, winCond)) != null
+                || (mark = Utils.checkDiagonal(board, winCond)) != null) {
+            winner = findWinner(mark);
+            return true;
         }
-
-        //check the column
-        for (int i = 0; i < board.getColumn(); i++) {
-            String s = "";
-            int count = 0;
-            for (int j = 0; j < board.getRow(); j++) {
-                // find the longest mark
-                String mark = board.getMark(j, i);
-                if (!mark.equals("")) {
-                    if (mark.equals(s))
-                        count++;
-                    else {
-                        s = mark;
-                        count = 1;
-                    }
-                } else {
-                    s = "";
-                    count = 0;
-                }
-
-                // judge winner by the length
-                if (count >= winCond) {
-                    winner = findWinner(mark);
-                    return true;
-                }
-            }
-        }
-
-        //check the diagonal
-        for (int i = 0; i <= board.getRow() - winCond; i++) {
-            String s = "", bs = "";
-            int count = 0, bcount = 0;
-
-            for (int j = 0; j <= board.getColumn() - winCond; j++) {
-                // stop early
-                if (i != 0 && j > 0)
-                    break;
-
-                // start point
-                int x = i, y = j;
-                while (x < board.getRow() && y < board.getColumn()) {
-                    // find the longest mark
-                    String mark = board.getMark(x, y);
-                    String bmark = board.getMark(x, board.getRow() - y - 1);
-
-                    if (!mark.equals("")) {
-                        if (mark.equals(s))
-                            count++;
-                        else {
-                            s = mark;
-                            count = 1;
-                        }
-                    } else {
-                        s = "";
-                        count = 0;
-                    }
-
-                    // judge winner by the length
-                    if (count >= winCond) {
-                        winner = findWinner(mark);
-                        return true;
-                    }
-
-                    // back diagonal
-                    if (!bmark.equals("")) {
-                        if (bmark.equals(bs))
-                            bcount++;
-                        else {
-                            bs = bmark;
-                            bcount = 1;
-                        }
-                    } else {
-                        bs = "";
-                        bcount = 0;
-                    }
-
-                    // judge winner by the length
-                    if (bcount >= winCond) {
-                        winner = findWinner(bmark);
-                        return true;
-                    }
-
-                    x++;
-                    y++;
-                }
-
-            }
-        }
-
         return false;
     }
 
@@ -225,7 +121,6 @@ public class CustomTTTGame extends Game {
 
         System.out.println("Custom TTT GAME Settings:");
 
-
         while (true) {
             try {
                 // input team number
@@ -238,9 +133,15 @@ public class CustomTTTGame extends Game {
                     System.out.println("Please input the symbol of TEAM " + (i + 1));
                     symbols[i] = input.next();
                     if (symbols[i].length() > 1) {
-                        System.out.println("Error: The length of symbol must equal 1, Please input again.");
+                        System.out.println("Error: The length of symbol must equal 1, please input again.");
                         i--;
-                    }
+                    } else
+                        for (int j = 0; j < i; j++)
+                            if (symbols[i].equals(symbols[j])) {
+                                System.out.println("Error: The symbol has been used, please input a new one:");
+                                i--;
+                                break;
+                            }
                 }
 
                 // input player number
@@ -289,8 +190,10 @@ public class CustomTTTGame extends Game {
             teams[i] = new Team(symbols[i]);
         }
         for (int i = 0; i < playerNum; i++) {
-            teams[i % teamNum].addPlayer(new Player(symbols[i % teamNum]));
+            teams[i % teamNum].addPlayer(new Player(String.valueOf(i + 1)));
         }
+        showTeam();
+
         scoreBoard = new ScoreBoard(teams);
 
         createBoard(row, column);

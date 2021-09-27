@@ -1,5 +1,8 @@
 import java.util.Arrays;
 
+/**
+ * Scoreboard, record the score of team.
+ */
 public class ScoreBoard {
     private Team[] teams;
     private int scores[];
@@ -9,6 +12,7 @@ public class ScoreBoard {
         scores = new int[teams.length];
     }
 
+    // record a score
     public void score(String symbol, int score) {
         for (int i = 0; i < teams.length; i++)
             if (symbol.equals(teams[i].getSymbol())) {
@@ -17,6 +21,7 @@ public class ScoreBoard {
             }
     }
 
+    // reset the scoreboard with 0
     public void reset() {
         Arrays.fill(scores, 0);
     }

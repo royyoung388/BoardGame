@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Team, every team could have multiply players.
+ */
 public class Team {
     private String symbol;
     private ArrayList<Player> players;
@@ -19,10 +22,18 @@ public class Team {
         this.players.addAll(List.of(players));
     }
 
-    public Player next() {
+    // the next player to play game.
+    public Player nextPlayer() {
         if (point >= players.size())
             point = 0;
         return players.get(point++);
+    }
+
+    // show all players of this team
+    public void showPlayers() {
+        for (Player p : players)
+            System.out.printf("  Player %s  ", p.getName());
+        System.out.println();
     }
 
     public String getSymbol() {

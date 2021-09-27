@@ -1,6 +1,6 @@
 /***
  * Board, made by cells.
- * Can set the board size, and change the chess mark in the board
+ * set the board size, and record the chess mark in the board
  */
 public class Board {
     private final Cell[][] cells;
@@ -16,11 +16,11 @@ public class Board {
         this.column = column;
     }
 
-    public void reset() {
-        reset("");
+    public void fill() {
+        fill("");
     }
 
-    public void reset(String mark) {
+    public void fill(String mark) {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 cells[i][j].setMark(mark);
@@ -28,7 +28,7 @@ public class Board {
         }
     }
 
-    public void reset(String[][] marks) {
+    public void fill(String[][] marks) {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 cells[i][j].setMark(marks[i][j]);
@@ -45,7 +45,7 @@ public class Board {
     }
 
     public String getMark(int row, int column) {
-        return cells[row][column].getMark();
+        return getCell(row, column).getMark();
     }
 
     public int getRow() {

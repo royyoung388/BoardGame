@@ -10,7 +10,7 @@ public interface Rule {
 
     /**
      * Who is the winner?
-     * @return
+     * @return null if draw
      */
     Team winner();
 

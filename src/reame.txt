@@ -16,7 +16,8 @@ Team.java. Team, has a symbol, every team consists of at least 1 player.
 
 ScoreBoard.java. Scoreboard, record the score of every team.
 
-Main.java. Control the 3 games. Decided play which boardGame, and start a new boardGame or replay.
+Game.java. Control the 3 games. Decided to play which boardGame, and start a new boardGame or replay.
+Main.java. Start the Game.
 
 # instruction
 1. you should choose which boardGame you want to play.

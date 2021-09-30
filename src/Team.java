@@ -6,7 +6,7 @@ import java.util.List;
  */
 public class Team {
     private String symbol;
-    private ArrayList<Player> players;
+    private List<Player> players;
     private int point = 0;
 
     public Team(String symbol) {

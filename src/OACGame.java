@@ -5,7 +5,7 @@ import java.util.Scanner;
  * Order and Chaos Game
  * The board size if 6, win condition is 5, only 2 teams, 2 players
  */
-public class OACGame extends Game {
+public class OACGame extends BoardGame {
     private Team winner;
 
     public OACGame() {

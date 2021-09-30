@@ -5,9 +5,10 @@ import java.util.Scanner;
  * Custom tic-tac-toe game.
  * Get parameter by getPara(), every input will be checked.
  */
-public class CustomTTTGame extends Game {
+public class CustomTTTGame extends BoardGame {
     private Team winner;
     private int winCond;
+    private Scanner input;
 
     public CustomTTTGame() {
         getPara();
@@ -16,7 +17,7 @@ public class CustomTTTGame extends Game {
     @Override
     public void start() {
         int turn = 0;
-        Scanner input = new Scanner(System.in);
+        input = new Scanner(System.in);
         System.out.println("Custom TTT GAME START!");
 
         while (!isEnd()) {
@@ -59,7 +60,7 @@ public class CustomTTTGame extends Game {
         while (true) {
             // use the same parameter
             System.out.println("Do you want to use the same parameter? (Y/N)");
-            String select = new Scanner(System.in).next().toLowerCase();
+            String select = input.next().toLowerCase();
             if (select.equals("y"))
                 break;
             else if (select.equals("n")) {
@@ -115,7 +116,6 @@ public class CustomTTTGame extends Game {
     }
 
     public void getPara() {
-        Scanner input = new Scanner(System.in);
         int teamNum, playerNum, row, column, winCond;
         String[] symbols;
 

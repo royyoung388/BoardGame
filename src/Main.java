@@ -5,7 +5,7 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        Game game = null;
+        BoardGame boardGame = null;
         Scanner input = new Scanner(System.in);
         int flag = 1;
 
@@ -21,16 +21,16 @@ public class Main {
             String select = input.next();
             switch (select) {
                 case "1":
-                    game = new TTTGame();
-                    game.start();
+                    boardGame = new TTTGame();
+                    boardGame.start();
                     break;
                 case "2":
-                    game = new OACGame();
-                    game.start();
+                    boardGame = new OACGame();
+                    boardGame.start();
                     break;
                 case "3":
-                    game = new CustomTTTGame();
-                    game.start();
+                    boardGame = new CustomTTTGame();
+                    boardGame.start();
                     break;
                 case "0":
                     flag = 0;
@@ -47,8 +47,8 @@ public class Main {
                 select = input.next().toLowerCase();
 
                 if (select.equals("y")) {
-                    game.newGame();
-                    game.start();
+                    boardGame.newGame();
+                    boardGame.start();
                 } else if (select.equals("n"))
                     flag = 2;
                 else

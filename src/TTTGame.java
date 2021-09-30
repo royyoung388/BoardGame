@@ -5,7 +5,7 @@ import java.util.Scanner;
  * Tic-tac-toe Game.
  * The board size if 3X3, win condition is 3, only 2 teams, 2 players.
  */
-public class TTTGame extends Game {
+public class TTTGame extends BoardGame {
     private Team winner;
 
     public TTTGame() {

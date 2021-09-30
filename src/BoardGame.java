@@ -1,7 +1,7 @@
 /**
  * Base class for all game. Defined several general method.
  */
-public abstract class Game implements Rule {
+public abstract class BoardGame implements Rule {
     protected Board board;
     protected Team[] teams;
     protected ScoreBoard scoreBoard;

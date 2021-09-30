@@ -19,6 +19,19 @@ ScoreBoard.java. Scoreboard, record the score of every team.
 Game.java. Control the 3 games. Decided to play which boardGame, and start a new boardGame or replay.
 Main.java. Start the Game.
 
+
+# Robust
+Every input will be checked. If you input the wrong information, there will be an error, and asking for a new input.
+For every move, the boardGame will check the validation.
+For custom TTT boardGame, the relationship between team number and player number, board size and win condition will be checked. And you are not allowed to input the same team symbol.
+
+
+# Scalability And Extensibility
+Board scalability: Create different size of cell list will create different size of board.
+Player Scalability: Shows in Team.java and Player.java. Multiply players can be added to same team. And every team will choose the next player to make a move.
+Extensibility: Shows in the Rule.java interface, BoardGame.java base class. Creating a new class by inheriting the BoardGame makes extensibility possible.
+
+
 # instruction
 1. you should choose which boardGame you want to play.
 
@@ -41,13 +54,3 @@ At the end, the scoreboard will record the score of every team.
 3. After each boardGame, you can decide play again or not.
 If you want to play again, the scoreboard will not be reset which means the score will be remembered.
 If you want to play a new boardGame, the scoreboard will be reset, and you will be asked to choose a new game.
-
-# Robust
-Every input will be checked. If you input the wrong information, there will be an error, and asking for a new input.
-For every move, the boardGame will check the validation.
-For custom TTT boardGame, the relationship between team number and player number, board size and win condition will be checked. And you are not allowed to input the same team symbol.
-
-# Scalability And Extensibility
-Board scalability: Create different size of cell list will create different size of board.
-Player Scalability: Shows in Team.java and Player.java. Multiply players can be added to same team. And every team will choose the next player to make a move.
-Extensibility: Shows in the Rule.java interface, BoardGame.java base class. Creating a new class by inheriting the BoardGame makes extensibility possible.
